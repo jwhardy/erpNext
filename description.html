@@ -1,0 +1,443 @@
+<!-- c.description -->
+ {% if style_heading  == "unset" %}{% set style  = " " %}{% else %}{% set style  = "font-style: "~style_heading~";"  %}{% endif %}
+ {% if align_heading  == "unset" %}{% set align  = " " %}{% else %}{% set align  = "text-align: "~align_heading~";"  %}{% endif %}
+ {% if color_heading  == "unset" %}{% set color  = " " %}{% else %}{% set color  = "color: "~color_heading~";"       %}{% endif %}
+ {% if weight_heading == "unset" %}{% set weight = " " %}{% else %}{% set weight = "font-weight: "~weight_heading~";"%}{% endif %}
+
+ {% if img_heading %}<h3 class="pic_heading">{{img_heading|replace("\n","<br>\n")}}</h3>{% endif %}
+
+ {%- if img_attach     %}
+    {% if img_a_link     %}<a href="{{img_a_link}}" target="ycs_link" >{% endif %}
+<figure ><img src="{{img_attach}}"
+    {% if img_width     %}{% if img_width  >= 1 %}  width = "{{img_width}}"  {% endif %}{% endif  %}
+    {% if img_height    %}{% if img_height >= 1 %} height = "{{img_height}}" {% endif %}{% endif  %}
+    {% if img_alt       %}                            alt = "{{img_alt}}"    {% else  %}
+    {% if img_name      %}                            alt = "{{img_name}}"   {% endif %}{% endif -%}/>
+    {% if img_name      %}
+<figcaption style="padding:0px 30px 0px 30px;"><b><i>{{img_name|replace("\n","<br>\n")}}</i></b></figcaption>
+    {% endif %}
+</figure>
+    {% if img_a_link     %}</a>{% endif %}
+{% endif %}
+
+    {% if top_br %}<br><span style="width:100%"></span>{% endif %}
+    {% if top_hr %}<hr>{% endif %}
+{%- if description_heading %}
+<h2 style="min-width:100%; width:100%;padding:2% 5% 0% 5%;{{style}}{{align}}{{color}}{{weight}}">{{ description_heading }}</h2>
+{% endif -%}
+    {% if description_date %}<div style="padding-left:20%; padding-right:20%"><p>{{description_date}}</p></div>{% endif %}
+
+{% if description %}
+{% if d.class=="displayHTMLcode"     %}
+{%- set list        =   description.split("\n")  %}
+{%- set description =   ""%}
+<pre>
+{%- for line in list                          %}
+{%- set link_include =  'on'                 -%}
+{%- if  link_include == 'on'                  %}
+{%- if   loop.index   <= 9  %}{%- set description =   "00"~loop.index~" | "~line~"" -%}
+{%- elif loop.index   <= 99 %}{%- set description =    "0"~loop.index~" | "~line~"" -%}
+{%- else %}                   {%- set description =        loop.index~" | "~line~"" -%}
+{%- endif %}
+{%  include "templates/jwh/displayCode.html"  %}
+{%- else -%}
+{% endif -%}
+{% endfor %}
+</pre>
+{% else %}
+
+<!-- in class normal -->
+    {%- set rubishtext       =   "kfqbctzm"                                                                                     -%}
+    {%- set list             =   description.split("\n")                                                                        -%}
+    {%- set varTable         =   {'t'     :    False}                                                                           -%}
+    {%- set varParagraph     =   {'p'     :    False}                                                                           -%}
+    {%- set varOList         =   {'ol'    :    False}                                                                           -%}
+    {%- set varUList         =   {'ul'    :    False}                                                                           -%}
+    {%- set varHeadingH      =   {'h'     :    False}                                                                           -%}
+    {%- set varHeadingH1     =   {'h1'    :    False}                                                                           -%}
+    {%- set varHeadingH2     =   {'h2'    :    False}                                                                           -%}
+    {%- set varHeadingH3     =   {'h3'    :    False}                                                                           -%}
+    {%- set varHeadingH4     =   {'h4'    :    False}                                                                           -%}
+    {%- set varHeadingH5     =   {'h5'    :    False}                                                                           -%}
+    {%- set varHeadingH6     =   {'h6'    :    False}                                                                           -%}
+    {%- set varList          =   {'li'    :    False}                                                                           -%}
+    {%- set varPer           =   {'per'   :    False}                                                                           -%}
+
+    {%- for line in list                                                                                                        -%}
+
+    {%- set line             =   rubishtext~line~rubishtext                                                                     -%}
+    {%- set line1            =   line                                                                                           -%}
+    {%- set bar_true         =   line1.split("|bar")                                                                            -%}
+    {%- if  bar_true[1]                                                                                                          %}
+        {%- set line         =   line |replace(rubishtext," "                                                                  )-%}
+        {%- set line         =   line |replace("|bar"," "                                                                      )-%}
+        {%- set line         =   line |replace("¬","</li><li>"                                                                 )-%}
+        {%- set line         =   line |replace("|","</li><li>"                                                                 )-%}
+        {%- set line         =   "<span><li>| "~line~"</li></span>\n"                                                           -%}
+        {%- set line         =   rubishtext~line~rubishtext                                                                     -%}
+    {%- endif %}
+    {%- set score_true       =   line1.split("|score")                                                                          -%}
+    {%- if  score_true[1] %}
+        {%- set line         =   line |replace(rubishtext," "                                                                  )-%}
+        {%- set line         =   line |replace("|score"," "                                                                    )-%}
+        {%- set line         =   line |replace("¬","</li><li>"                                                                 )-%}
+        {%- set line         =   line |replace("|","</li><li>"                                                                 )-%}
+        {%- set line         =   "<span><li>| "~line~"</li></span>\n"                                                           -%}
+        {%- set line         =   rubishtext~line~rubishtext                                                                     -%}
+    {%- endif %}
+    {%- set pre_true         =  line1.split("<pre>")  -%}
+    {%- set pre_false        =  line1.split("</pre>") -%}
+    {%- if varPer.per        == False %}{%- if pre_true[1] -%}{{'<pre>\n'}}
+                                        {%- if varPer.update ({'per'    : True     })-%}
+                                        {%- endif %}{% endif -%}
+    {%- endif -%}
+    {%- if  varPer.per       -%}
+        {%- set line         =   line |replace(rubishtext," "    )-%}
+        {%- set line         =   line |replace("<pre>" ," "      )-%} 
+        {%- set line         =   line |replace("</pre>"," "      )-%}
+        {%- set description  =   line -%}
+        {%  include "templates/jwh/displayCode.html"  %}
+        
+        {%- if pre_false[1] %}{{'</pre>\n'}}{% if varPer.update ({'per'   : False    })%}{% endif %}{% endif %}
+    {%  else %}
+    {%- set line             =   line |replace("\|",  "&#x7C;"                                                                 )-%}
+    {%- set line             =   line |replace("\<",  "&lt;"                                                                   )-%}
+    {%- set line             =   line |replace("\>",  "&gt;"                                                                   )-%}
+    {%- set line             =   line |replace("\&",  "&#38;"                                                                  )-%}
+    {%- set line             =   line |replace("|hr",  "<hr/>\n"                                                               )-%}
+    {%- set line             =   line |replace("|s20" ,'<span style="display: inline-block;padding-left:20px;">'               )-%}
+    {%- set line             =   line |replace("|s15" ,'<span style="display: inline-block;padding-left:15px;">'               )-%}
+    {%- set line             =   line |replace("|s10" ,'<span style="display: inline-block;padding-left:10px;">'               )-%}
+    {%- set line             =   line |replace("|se" ,'</span>'                                                                )-%}
+    {%- set line             =   line |replace("|s" ,  "&nbsp;"                                                                )-%}
+    {%- set line             =   line |replace("\s" ,  "&nbsp;"                                                                )-%}
+    {%- set line1            =   line                                                                                           -%}
+    {%- set line2            =   line                                                                                           -%}
+    {%- set hType            =   " "                                                                                            -%}
+    {%- set list_true        =   line1.split("|li")                                                                             -%}
+    {%- set heading_h_true   =   line1.split("|h")                                                                              -%}
+    {%- set heading_h1_true  =   line1.split("|h1")                                                                             -%}
+    {%- set heading_h2_true  =   line1.split("|h2")                                                                             -%}
+    {%- set heading_h3_true  =   line1.split("|h3")                                                                             -%}
+    {%- set heading_h4_true  =   line1.split("|h4")                                                                             -%}
+    {%- set heading_h5_true  =   line1.split("|h5")                                                                             -%}
+    {%- set heading_h6_true  =   line1.split("|h6")                                                                             -%}
+   
+    
+    
+    
+
+    {%- if varList.li        ==  False %}
+                                         {%  if list_true[1]          %}
+                                             {%  if varList.update        ({'li'    : True    })%}
+                                             {%  endif   %}
+                                         {%  endif   %}
+    {% endif  -%}
+    {%- if varHeadingH.h     ==  False %}{%  if varHeadingH1.update    ({'h1'    : False    })%}{% endif  -%}
+                                         {%- if varHeadingH2.update    ({'h2'    : False    })%}{% endif  -%}
+                                         {%- if varHeadingH3.update    ({'h3'    : False    })%}{% endif  -%}
+                                         {%- if varHeadingH4.update    ({'h4'    : False    })%}{% endif  -%}
+                                         {%- if varHeadingH5.update    ({'h5'    : False    })%}{% endif  -%}
+                                         {%- if varHeadingH6.update    ({'h6'    : False    })%}{% endif  -%}
+    {% endif  -%}
+    {%- if varHeadingH.h     ==  False %}{%  if heading_h_true[1]  %}{% if varHeadingH.update     ({'h'    : True     })%}{% endif   %}{%  endif  -%}
+                                         {%- if heading_h1_true[1] %}{% if varHeadingH1.update    ({'h1'    : True    })%}{% endif   %}{%  endif  -%}
+                                         {%- if heading_h2_true[1] %}{% if varHeadingH2.update    ({'h2'    : True    })%}{% endif   %}{%  endif  -%}
+                                         {%- if heading_h3_true[1] %}{% if varHeadingH3.update    ({'h3'    : True    })%}{% endif   %}{%  endif  -%}
+                                         {%- if heading_h4_true[1] %}{% if varHeadingH4.update    ({'h4'    : True    })%}{% endif   %}{%  endif  -%}
+                                         {%- if heading_h5_true[1] %}{% if varHeadingH5.update    ({'h5'    : True    })%}{% endif   %}{%  endif  -%}
+                                         {%- if heading_h6_true[1] %}{% if varHeadingH6.update    ({'h6'    : True    })%}{% endif   %}{%  endif   %}
+    {% endif -%}
+    {%- if varHeadingH.h     ==  True  %}{% if varHeadingH6.h6 ==    True %}{% set hType = "6" %}{% endif  -%}
+                                         {% if varHeadingH5.h5 ==    True %}{% set hType = "5" %}{% endif  -%}
+                                         {% if varHeadingH4.h4 ==    True %}{% set hType = "4" %}{% endif  -%}
+                                         {% if varHeadingH3.h3 ==    True %}{% set hType = "3" %}{% endif  -%}
+                                         {% if varHeadingH2.h2 ==    True %}{% set hType = "2" %}{% endif  -%}
+                                         {% if varHeadingH1.h1 ==    True %}{% set hType = "1" %}{% endif   %}{% endif  -%}
+
+    {%- set paragraph_true  =    line1.split("|p")                                                                  -%}
+    {%- set olist_false     =    line1.split("|p")                                                                  -%}
+    {%- set ulist_false     =    line1.split("|p")                                                                  -%}
+    {%- set heading_false   =    line1.split("|p")                                                                  -%}
+
+    {%- set olist_true      =    line1.split("|ol")                                                                 -%}
+    {%- set paragraph_false =    line1.split("|ol")                                                                 -%}
+    {%- set ulist_false     =    line1.split("|ol")                                                                 -%}
+    {%- set heading_false   =    line1.split("|ol")                                                                 -%}
+
+    {%- set ulist_true      =    line1.split("|ul")                                                                 -%}
+    {%- set paragraph_false =    line1.split("|ul")                                                                 -%}
+    {%- set olist_false     =    line1.split("|ul")                                                                 -%}
+    {%- set heading_false   =    line1.split("|ul")                                                                 -%}
+
+
+    {%- set heading_true    =    line1.split("|h")                                                                  -%}
+    {%- set paragraph_false =    line1.split("|h")                                                                  -%}
+    {%- set olist_false     =    line1.split("|h")                                                                  -%}
+    {%- set ulist_false     =    line1.split("|h")                                                                  -%}
+
+    {%- set table_false     =    line1.split("|te")                                                                 -%}
+    {%- set line3           =    line2|replace("|te",    rubishtext                                                )-%}
+    {%- set table_true      =    line3.split("|t")                                                                  -%}
+
+    {%- set description     =    line        |replace("|aa", "<a href='"                                           )-%}
+    {%- set description     =    description |replace("|at", " ' target='"                                         )-%}
+    {%- set description     =    description |replace("|an", " ' >"                                                )-%}
+    {%- set description     =    description |replace("|ae", "</a>"                                                )-%}
+
+    {%- set description     =    description |replace("|be", "</b>"                                                )-%}
+    {%- set description     =    description |replace("|b",  "<b>"                                                 )-%}
+
+    {%- set description     =   description |replace("dd|dd" , "</dd>\n<dd>"                                       )-%}
+    {%- set description     =   description |replace("dd|dt" , "</dd>\n<dt>"                                       )-%}
+    {%- set description     =   description |replace("dt|dd" , "</dt>\n<dd>"                                       )-%}
+    {%- set description     =   description |replace("dd|dl" , "</dd>\n</dl>"                                      )-%}
+    {%- set description     =   description |replace("dt|dl" , "</dt>\n</dl>"                                      )-%}
+    {%- set description     =   description |replace(  "|dl2" , '\n<dl class="two">'                               )-%}
+    {%- set description     =   description |replace(  "|dl3" , '\n<dl class="three">'                             )-%}
+    {%- set description     =   description |replace(  "|dl4" , '\n<dl class="four">'                              )-%}
+    {%- set description     =   description |replace(  "|dl5" , '\n<dl class="five">'                              )-%}
+    {%- set description     =   description |replace(  "|dl6" , '\n<dl class="six">'                               )-%}
+    {%- set description     =   description |replace(  "|dl7" , '\n<dl class="seven">'                             )-%}
+    {%- set description     =   description |replace(  "|dle", "</dl>\n"                                           )-%}
+    {%- set description     =   description |replace(  "|dl" , "\n<dl>"                                            )-%}
+    {%- set description     =   description |replace(  "|dte", "</dt>\d"                                           )-%}
+    {%- set description     =   description |replace(  "|dt" , "\n<dt>"                                            )-%}
+    {%- set description     =   description |replace(  "|dde", "</dd>\n"                                           )-%}
+    {%- set description     =   description |replace(  "|dd" , "<dd>"                                              )-%}
+    
+
+
+    {%- set description     =   description |replace("|ie",  "</i>"                                                )-%}
+    {%- set description     =   description |replace("|i",   "<i>"                                                 )-%}
+
+    {%- set description     =   description |replace("|nl",  "<br>\n"                                              )-%}
+    {%- set description     =   description |replace("|nn",  "<br>\n<br>\n"                                        )-%}
+    {%- set description     =   description |replace("|n",   "<br>\n"                                              )-%}
+    
+    {%- set description     =   description |replace("|ole", "\n"                                                  )-%}
+    {%- set description     =   description |replace("|ule", "\n"                                                  )-%}
+    {%- set description     =   description |replace("|lie", "</li>\n"                                             )-%}
+    {%- set description     =   description |replace("|li",  "<li>"                                                )-%}
+
+    {%- set description     =   description |replace("|pe",  "")-%}
+
+
+    {%- set description     =   description |replace("|h1", "|h")-%}
+    {%- set description     =   description |replace("|h2", "|h")-%}
+    {%- set description     =   description |replace("|h3", "|h")-%}
+    {%- set description     =   description |replace("|h4", "|h")-%}
+    {%- set description     =   description |replace("|h5", "|h")-%}
+    {%- set description     =   description |replace("|h6", "|h")-%}
+
+    {%- if varParagraph.p     -%}
+    {%- set description     =   description |replace("|p25", "</p>\n    <p style='width:50%;margin-left:25%;margin-right:25%;'>"                 )-%}
+    {%- set description     =   description |replace("|p20", "</p>\n    <p style='width:60%;margin-left:20%;margin-right:20%;'>"                 )-%}
+    {%- set description     =   description |replace("|p15", "</p>\n    <p style='width:70%;margin-left:15%;margin-right:15%;'>"                 )-%}
+    {%- set description     =   description |replace("|p10", "</p>\n    <p style='width:80%;margin-left:10%;margin-right:10%;'>"                 )-%}
+    {%- set description     =   description |replace("|p5",  "</p>\n    <p style='width:90%;margin-left:5%;margin-right:5%;'>"                   )-%}
+    {%- set description     =   description |replace("|p",   "</p>\n    <p style='width:90%;margin-left:5%;margin-right:5%;'>"                   )-%}
+    {%- set description     =   description |replace("|ol25","</p>\n    <ol style='width:100%;margin-left:25%;margin-right:25%;'>"               )-%}
+    {%- set description     =   description |replace("|ol20","</p>\n    <ol style='width:100%;margin-left:20%;margin-right:20%;'>"               )-%}
+    {%- set description     =   description |replace("|ol15","</p>\n    <ol style='width:100%;margin-left:15%;margin-right:15%;'>"               )-%}
+    {%- set description     =   description |replace("|ol10","</p>\n    <ol style='width:100%;margin-left:10%;margin-right:10%;'>"               )-%}
+    {%- set description     =   description |replace("|ol5", "</p>\n    <ol style='width:100%;margin-left:5%;margin-right:5%;'>"                 )-%}
+    {%- set description     =   description |replace("|ol",  "</p>\n    <ol style='width:100%;margin-left:2%;margin-right:2%;'>"                 )-%}
+    {%- set description     =   description |replace("|ul25","</p>\n    <ul style='width:100%;margin-left:25%;margin-right:25%;'>"               )-%}
+    {%- set description     =   description |replace("|ul20","</p>\n    <ul style='width:100%;margin-left:20%;margin-right:20%;'>"               )-%}
+    {%- set description     =   description |replace("|ul15","</p>\n    <ul style='width:100%;margin-left:15%;margin-right:15%;'>"               )-%}
+    {%- set description     =   description |replace("|ul10","</p>\n    <ul style='width:100%;margin-left:10%;margin-right:10%;'>"               )-%}
+    {%- set description     =   description |replace("|ul5", "</p>\n    <ul style='width:90%;margin-left:5%;margin-right:5%;'>"                  )-%}
+    {%- set description     =   description |replace("|ul",  "</p>\n    <ul style='width:100%;margin-left:2%;margin-right:2%;'>"                 )-%}
+    {%- set description     =   description |replace("|h",   "</p>\n    <h"~hType~" style='width:100%;margin-left:5%;margin-right:5%;'>"         )-%}
+    {%- elif varOList.ol     -%}
+    {%- set description     =   description |replace("|p25", "</ol>\n    <p style='width:50%;margin-left:25%;margin-right:25%;'>"                )-%}
+    {%- set description     =   description |replace("|p20", "</ol>\n    <p style='width:60%;margin-left:20%;margin-right:20%;'>"                )-%}
+    {%- set description     =   description |replace("|p15", "</ol>\n    <p style='width:70%;margin-left:15%;margin-right:15%;'>"                )-%}
+    {%- set description     =   description |replace("|p10", "</ol>\n    <p style='width:80%;margin-left:10%;margin-right:10%;'>"                )-%}
+    {%- set description     =   description |replace("|p5",  "</ol>\n    <p style='width:90%;margin-left:5%;margin-right:5%;'>"                  )-%}
+    {%- set description     =   description |replace("|p",   "</ol>\n    <p style='width:90%;margin-left:5%;margin-right:5%;'>"                  )-%}
+    {%- set description     =   description |replace("|ol25","</ol>\n    <ol style='width:100%;margin-left:25%;margin-right:25%;'>"              )-%}
+    {%- set description     =   description |replace("|ol20","</ol>\n    <ol style='width:100%;margin-left:20%;margin-right:20%;'>"              )-%}
+    {%- set description     =   description |replace("|ol15","</ol>\n    <ol style='width:100%;margin-left:15%;margin-right:15%;'>"              )-%}
+    {%- set description     =   description |replace("|ol10","</ol>\n    <ol style='width:100%;margin-left:10%;margin-right:10%;'>"              )-%}
+    {%- set description     =   description |replace("|ol5", "</ol>\n    <ol style='width:100%;margin-left:5%;margin-right:5%;'>"                )-%}
+    {%- set description     =   description |replace("|ol",  "</ol>\n    <ol style='width:100%;margin-left:2%;margin-right:2%;'>"                )-%}
+    {%- set description     =   description |replace("|ul25","</ol>\n    <ul style='width:100%;margin-left:25%;margin-right:25%;'>"              )-%}
+    {%- set description     =   description |replace("|ul20","</ol>\n    <ul style='width:100%;margin-left:20%;margin-right:20%;'>"              )-%}
+    {%- set description     =   description |replace("|ul15","</ol>\n    <ul style='width:100%;margin-left:15%;margin-right:15%;'>"              )-%}
+    {%- set description     =   description |replace("|ul10","</ol>\n    <ul style='width:100%;margin-left:10%;margin-right:10%;'>"              )-%}
+    {%- set description     =   description |replace("|ul5", "</ol>\n    <ul style='width:100%;margin-left:5%;margin-right:5%;'>"                )-%}
+    {%- set description     =   description |replace("|ul",  "</ol>\n    <ul style='width:100%;margin-left:2%;margin-right:2%;'>"                )-%}
+    {%- set description     =   description |replace("|h",   "</ol>\n    <h"~hType~" style='width:100%;margin-left:5%;margin-right:5%;'>"        )-%}
+    {%- elif varUList.ul     -%}
+    {%- set description     =   description |replace("|p25", "</ul>\n    <p style='width:50%;margin-left:25%;margin-right:25%;'>"                )-%}
+    {%- set description     =   description |replace("|p20", "</ul>\n    <p style='width:60%;margin-left:20%;margin-right:20%;'>"                )-%}
+    {%- set description     =   description |replace("|p15", "</ul>\n    <p style='width:70%;margin-left:15%;margin-right:15%;'>"                )-%}
+    {%- set description     =   description |replace("|p10", "</ul>\n    <p style='width:80%;margin-left:10%;margin-right:10%;'>"                )-%}
+    {%- set description     =   description |replace("|p5",  "</ul>\n    <p style='width:90%;margin-left:5%;margin-right:5%;'>"                  )-%}
+    {%- set description     =   description |replace("|p",   "</ul>\n    <p style='width:90%;margin-left:5%;margin-right:5%;'>"                  )-%}
+    {%- set description     =   description |replace("|ol25","</ul>\n    <ol style='width:100%;margin-left:25%;margin-right:25%;'>"              )-%}
+    {%- set description     =   description |replace("|ol20","</ul>\n    <ol style='width:100%;margin-left:20%;margin-right:20%;'>"              )-%}
+    {%- set description     =   description |replace("|ol15","</ul>\n    <ol style='width:100%;margin-left:15%;margin-right:15%;'>"              )-%}
+    {%- set description     =   description |replace("|ol10","</ul>\n    <ol style='width:100%;margin-left:10%;margin-right:10%;'>"              )-%}
+    {%- set description     =   description |replace("|ol5", "</ul>\n    <ol style='width:100%;margin-left:5%;margin-right:5%;'>"                )-%}
+    {%- set description     =   description |replace("|ol",  "</ul>\n    <ol style='width:100%;margin-left:2%;margin-right:2%;'>"                )-%}
+    {%- set description     =   description |replace("|ul25","</ul>\n    <ul style='width:100%;margin-left:25%;margin-right:25%;'>"              )-%}
+    {%- set description     =   description |replace("|ul20","</ul>\n    <ul style='width:100%;margin-left:20%;margin-right:20%;'>"              )-%}
+    {%- set description     =   description |replace("|ul15","</ul>\n    <ul style='width:100%;margin-left:15%;margin-right:15%;'>"              )-%}
+    {%- set description     =   description |replace("|ul10","</ul>\n    <ul style='width:100%;margin-left:10%;margin-right:10%;'>"              )-%}
+    {%- set description     =   description |replace("|ul5", "</ul>\n    <ul style='width:90%;margin-left:5%;margin-right:5%;'>"                 )-%}
+    {%- set description     =   description |replace("|ul",  "</ul>\n    <ul style='width:100%;margin-left:2%;margin-right:2%;'>"                )-%}
+    {%- set description     =   description |replace("|h",   "</ul>\n    <h"~hType~" style='width:100%;margin-left:5%;margin-right:5%;'>"        )-%}
+    {%- elif varHeadingH.h     -%}
+    {%- set description     =   description |replace("|p25", "</h"~hType~">\n    <p  style='width:50%;margin-left:25%;margin-right:25%;'>"       )-%}
+    {%- set description     =   description |replace("|p20", "</h"~hType~">\n    <p  style='width:60%;margin-left:20%;margin-right:20%;'>"       )-%}
+    {%- set description     =   description |replace("|p15", "</h"~hType~">\n    <p  style='width:70%;margin-left:15%;margin-right:15%;'>"       )-%}
+    {%- set description     =   description |replace("|p10", "</h"~hType~">\n    <p  style='width:80%;margin-left:10%;margin-right:10%;'>"       )-%}
+    {%- set description     =   description |replace("|p5",  "</h"~hType~">\n    <p  style='width:90%;margin-left:5%;margin-right:5%;'>"         )-%}
+    {%- set description     =   description |replace("|p",   "</h"~hType~">\n    <p  style='width:90%;margin-left:5%;margin-right:5%;'>"         )-%}
+    {%- set description     =   description |replace("|ol25","</h"~hType~">\n    <ol style='width:100%;margin-left:25%;margin-right:25%;'>"      )-%}
+    {%- set description     =   description |replace("|ol20","</h"~hType~">\n    <ol style='width:100%;margin-left:20%;margin-right:20%;'>"      )-%}
+    {%- set description     =   description |replace("|ol15","</h"~hType~">\n    <ol style='width:100%;margin-left:15%;margin-right:15%;'>"      )-%}
+    {%- set description     =   description |replace("|ol10","</h"~hType~">\n    <ol style='width:100%;margin-left:10%;margin-right:10%;'>"      )-%}
+    {%- set description     =   description |replace("|ol5", "</h"~hType~">\n    <ol style='width:100%;margin-left:5%;margin-right:5%;'>"        )-%}
+    {%- set description     =   description |replace("|ol",  "</h"~hType~">\n    <ol style='width:100%;margin-left:2%;margin-right:2%;'>"        )-%}
+    {%- set description     =   description |replace("|ul25","</h"~hType~">\n    <ul style='width:100%;margin-left:25%;margin-right:25%;'>"      )-%}
+    {%- set description     =   description |replace("|ul20","</h"~hType~">\n    <ul style='width:100%;margin-left:20%;margin-right:20%;'>"      )-%}
+    {%- set description     =   description |replace("|ul15","</h"~hType~">\n    <ul style='width:100%;margin-left:15%;margin-right:15%;'>"      )-%}
+    {%- set description     =   description |replace("|ul10","</h"~hType~">\n    <ul style='width:100%;margin-left:10%;margin-right:10%;'>"      )-%}
+    {%- set description     =   description |replace("|ul5", "</h"~hType~">\n    <ul style='width:90%;margin-left:5%;margin-right:5%;'>"         )-%}
+    {%- set description     =   description |replace("|ul",  "</h"~hType~">\n    <ul style='width:100%;margin-left:2%;margin-right:2%;'>"        )-%}
+    {%- set description     =   description |replace("|h",   "</h"~hType~">\n    <h"~hType~" style='width:100%;margin-left:5%;margin-right:5%;'>")-%}
+    {%- else                -%}
+    {%- set description     =   description |replace("|p25", " <p style='width:50%;margin-left:25%;margin-right:25%;'>"                          )-%}
+    {%- set description     =   description |replace("|p20", " <p style='width:60%;margin-left:20%;margin-right:20%;'>"                          )-%}
+    {%- set description     =   description |replace("|p15", " <p style='width:70%;margin-left:15%;margin-right:15%;'>"                          )-%}
+    {%- set description     =   description |replace("|p10", " <p style='width:80%;margin-left:10%;margin-right:10%;'>"                          )-%}
+    {%- set description     =   description |replace("|p5",  " <p style='width:90%;margin-left:5%;margin-right:5%;'>"                            )-%}
+    {%- set description     =   description |replace("|p",   " <p style='width:90%;margin-left:5%;margin-right:5%;'>"                            )-%}
+    {%- set description     =   description |replace("|ol25"," <ol style='width:100%;margin-left:25%;margin-right:25%;'>"                        )-%}
+    {%- set description     =   description |replace("|ol20"," <ol style='width:100%;margin-left:20%;margin-right:20%;'>"                        )-%}
+    {%- set description     =   description |replace("|ol15"," <ol style='width:100%;margin-left:15%;margin-right:15%;'>"                        )-%}
+    {%- set description     =   description |replace("|ol10"," <ol style='width:100%;margin-left:10%;margin-right:10%;'>"                        )-%}
+    {%- set description     =   description |replace("|ol5", " <ol style='width:100%;margin-left:5%;margin-right:5%;'>"                          )-%}
+    {%- set description     =   description |replace("|ol",  " <ol style='width:100%;margin-left:2%;margin-right:2%;'>"                          )-%}
+    {%- set description     =   description |replace("|ul25"," <ul style='width:100%;margin-left:25%;margin-right:25%;'>"                        )-%}
+    {%- set description     =   description |replace("|ul20"," <ul style='width:100%;margin-left:20%;margin-right:20%;'>"                        )-%}
+    {%- set description     =   description |replace("|ul15"," <ul style='width:100%;margin-left:15%;margin-right:15%;'>"                        )-%}
+    {%- set description     =   description |replace("|ul10"," <ul style='width:100%;margin-left:10%;margin-right:10%;'>"                        )-%}
+    {%- set description     =   description |replace("|ul5", " <ul style='width:100%;margin-left:5%;margin-right:5%;'>"                          )-%}
+    {%- set description     =   description |replace("|ul",  " <ul style='width:100%;margin-left:2%;margin-right:2%;'>"                          )-%}
+    {%- set description     =   description |replace("|h",   " <h"~hType~" style='width:100%;margin-left:5%;margin-right:5%;'>"                  )-%}
+
+    {%- endif                 -%}
+
+    {%- if varOList.ol      ==  False  %}{% if olist_true[1]                             %} 
+                                         {%  if varOList.update      ({'ol'  : True    })%}{% endif -%}
+                                         {%- if varParagraph.update  ({'p'   : False   })%}{% endif -%}
+                                         {%- if varUList.update      ({'ul'  : False   })%}{% endif -%}
+                                         {%- if varHeadingH.update   ({'h'   : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+    {%- if varOList.ol      ==  True   %}{% if olist_false[1]                            %} 
+                                         {%- if varOList.update      ({'ol'  : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+    {%- if varUList.ul      ==  False  %}{% if ulist_true[1]                             %} 
+                                         {%- if varUList.update      ({'ul'  : True    })%}{% endif -%}
+                                         {%- if varParagraph.update  ({'p'   : False   })%}{% endif -%}
+                                         {%- if varUList.update      ({'ol'  : False   })%}{% endif -%}
+                                         {%- if varHeadingH.update   ({'h'   : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+    {%- if varUList.ol      ==  True   %}{% if ulist_false[1]                            %} 
+                                         {% if varUList.update       ({'ul'  : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+
+    {%- if varParagraph.p   ==  False  %}{% if paragraph_true[1]                         %} 
+                                         {%  if varParagraph.update  ({'p'   : True    })%}{% endif -%}
+                                         {%- if varUList.update      ({'ul'  : False   })%}{% endif -%}
+                                         {%- if varOList.update      ({'ol'  : False   })%}{% endif -%}
+                                         {%- if varHeadingH.update   ({'h'   : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+    {%- if varParagraph.p   ==  True   %}{% if paragraph_false[1]                        %}
+                                         {% if varParagraph.update   ({'p'   : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+
+    {%- if varHeadingH.h    ==  False  %}{% if heading_true[1]                           %}
+                                         {%  if varheadingH.update   ({'h'   : True    })%}{% endif -%}
+                                         {%- if varUList.update      ({'ul'  : False   })%}{% endif -%}
+                                         {%- if varOList.update      ({'ol'  : False   })%}{% endif -%}
+                                         {%- if varParagraph.update  ({'p'   : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+    {%- if varHeadingH.h    ==  True   %}{% if heading_false[1]                          %}
+                                         {%  if varHeadingH.update   ({'h'   : False   })%}{% endif  %}
+                                         {% endif %}
+    {% endif -%}
+    {%- if varHeadingH.h    ==  True   %}{%  if varUList.update      ({'ul'  : False   })%}{% endif -%}
+                                         {%- if varOList.update      ({'ol'  : False   })%}{% endif -%}
+                                         {%- if varParagraph.update  ({'p'   : False   })%}{% endif  %}
+    {% endif -%}
+   
+    {%- set description     =   description |replace("|te",     "  </tbody>\n</table>\n"           )-%}
+    
+    {%- if varParagraph.p    -%}{%- set description     =   description |replace("|t", "</p>|t"             )-%}{% endif -%}
+    {%- if varHeadingH.h     -%}{%- set description     =   description |replace("|t", "</h"~hType~">|t"    )-%}{% endif -%}
+    {%- set description     =   description |replace("|t25", 
+"<table style='padding:0px 10px 0px 10px; margin-left:25%; margin-right:25%;'>
+  <tbody>
+     <tr>
+       <td style='padding:0px 10px 0px 10px; vertical-align:middle'>"    )-%}
+    {%- set description      =   description |replace("|t20", 
+"<table style='padding:0px 10px 0px 10px;margin-left:20%;margin-right:20%;'>
+  <tbody>
+    <tr>
+      <td style='padding:0px 10px 0px 10px; vertical-align:middle' >"    )-%}
+    {%- set description      =   description |replace("|t15", 
+"<table style='padding:0px 10px 0px 10px; margin-left:15%;margin-right:15%;'>
+    <tbody>
+      <tr>
+        <td style='padding:0px 10px 0px 10px; vertical-align:middle'>"    )-%}
+    {%- set description      =   description |replace("|t10", 
+"<table style='padding:0px 10px 0px 10px; margin-left:10%;margin-right:10%;'>
+  <tbody>
+    <tr>
+      <td style='padding:0px 10px 0px 10px; vertical-align:middle'>"    )-%}
+    {%- set description      =   description |replace("|t5",
+"<table style='padding:0px 10px 0px 10px; margin-left:5%;margin-right:5%;'>
+    <tbody>
+      <tr>
+        <td style='padding:0px 10px 0px 10px; vertical-align:middle'>"      )-%}
+    {%- set description      =   description |replace("|t",
+"<table style='padding:0px 10px 0px 10px; margin-left:2%; margin-right:2%;'>
+  <tbody>
+    <tr>
+      <td style='padding:0px 10px 0px 10px; vertical-align:middle'>"      )-%}
+
+    {%- if varTable.t        ==  False  %}{% if table_true[1] %} {% if varTable.update({'t': True}) %} {% endif %}{% endif %}{% endif -%}
+    {%- if varTable.t        ==  True   %}{% if table_false[1] %}{% if varTable.update({'t': False}) %}{% endif %}{% endif %}{% endif -%}
+    {%- if varTable.t -%}
+    {%- set description      =   description |replace("|c","</td><td style='padding:0px 10px 0px 10px; text-align:center; vertical-align:middle'>&nbsp;"  )-%}
+    {%- set description      =   description |replace("|","</td><td style='padding:0px 10px 0px 10px; vertical-align:middle'>&nbsp;"                 )-%}
+    {%- set description      =   "<tr><td style='padding:0px 10px 0px 10px; vertical-align:middle' >&nbsp;"~description~"</td></tr>"                  -%}
+    {%- endif -%}
+    {%- set description      =   description |replace(rubishtext,    ""                                               )-%}
+    {%- if loop.last %}
+    {%- if varList.li       %}{% set description = description~"</li>"          %}{% endif %}
+    {%- if varOList.ol      %}{% set description = description~"</ol>"          %}{% endif %}
+    {%- if varUList.ul      %}{% set description = description~"</ul>"          %}{% endif %}
+    {%- if varParagraph.p   %}{% set description = description~"</p>"           %}{% endif %}
+    {%- if varHeadingH.h    %}{% set description = description~"</h"~hType~">"  %}{% endif %}
+    {%- endif %}
+    {{description | replace("¬","|")}}
+    {% endif %}
+    {%- endfor -%}
+{% endif %}
+{% endif %}
+    {% if bottom_br==1 %}<br/><span style='width:100%;'></span>{% endif %}
+    {% if bottom_hr==1 %}<hr/>{% endif %}
